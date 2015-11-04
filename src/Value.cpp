@@ -1,5 +1,7 @@
 #include "Expressions/Value.hpp"
 
+#include <utility>
+
 #include "RuntimeInterpreterErrorException.hpp"
 
 
@@ -33,6 +35,67 @@ Value::Value(const std::string& x)
 	:type(Type::String)
 {
 	data.string = new std::string(x);
+}
+
+Value::Value(Value&& other)
+	:type(Type::Void)
+{
+	swap(*this, other);
+}
+
+VValue::Value(const Value& other)
+	:type(other.type)
+{
+	switch(other.type)
+	{
+	case Type::Void:
+		break;
+	case Type::Boolean:
+		data.boolean = other.data.boolean;
+		break;
+	case Type::Integer:
+		data.integer = other.data.intger;
+		break;
+	case Type::Float:
+		data.decimal = other.data.decimal;
+		break;
+	case Type::String:
+		data.string = new std::string(*other.data.string);
+		break;
+	case Type::Array:
+		data.vector = new std::vector<Type>(*other.data.vector);
+		break;
+	case Type::Map:
+		data.vector = new std::map<Type, Type>(*other.data.vector);
+		break;
+	case Type::Function:
+		/* not implemented */
+		throw "implement functions goddammit";
+		break;
+	}
+	other.type = Type::Void;
+}
+
+Value::~Value()
+{
+	free();
+}
+
+
+Value& Value::operator=(Value&& rhs)
+{
+	if (this != &rhs)
+	{
+		free();
+		swap(*this, rhs);
+	}
+	return *this;
+}
+
+Value& Value::operator=(Value rhs)
+{
+	swap(*this, rhs);
+	return *this;
 }
 
 
@@ -175,8 +238,41 @@ Value::Type Value::getType() const
 	return strings[static_cast<int>(type)];
 }
 
+/*static*/ void Value::swap(Value& lhs, Value& rhs)
+{
+	std::swap(lhs.type, rhs.type);
+	std::swap(lhs.data, rhs.data);
+}
+
 
 // private
+void Value::free()
+{
+	switch(type)
+	{
+	case Type::Void:
+	case Type::Boolean:
+	case Type::Integer:
+	case Type::Float:
+		// do nothing
+		break;
+	case Type::String:
+		delete data.string;
+		break;
+	case Type::Array:
+		delete data.vector;
+		break;
+	case Type::Map:
+		delete data.vector;
+		break;
+	case Type::Function:
+		/* not implemented */
+		throw "implement functions goddammit";
+		break;
+	}
+	type = Type::Void;
+}
+
 void Value::throwTypeConversionError(Type typeToConvertTo) const
 {
 	throw RuntimeInterpreterErrorException("cannot convert from " + getTypeAsString() + " to " + getTypeAsString(typeToConvertTo));

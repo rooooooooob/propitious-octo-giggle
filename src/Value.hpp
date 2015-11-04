@@ -33,6 +33,17 @@ public:
 	explicit Value(float x);
 
 	explicit Value(const std::string& x);
+	
+	Value(Value&& other);
+	
+	Value(const Value& other);
+	
+	~Value();
+	
+	
+	Value& operator=(Value&& rhs);
+	
+	Value& operator=(Value rhs);
 
 
 
@@ -74,7 +85,12 @@ public:
 
 
 	static const std::string& getTypeAsString(Type type);
+	
+	static void swap(Value& lhs, Value& rhs);
+	
 private:
+
+	void free();
 
 	void throwTypeConversionError(Type typeToConvertTo) const;
 	
