@@ -1,6 +1,7 @@
 #include "Expressions/Operators/Add.hpp"
 
 #include "Errors/RuntimeTypeError.hpp"
+#include "Expressions/TypeCoercion.hpp"
 
 namespace ds
 {
@@ -19,22 +20,21 @@ Value Add::evaluate(const Context& context) const
 {
 	const Value left = lhs->evaluate(context);
 	const Value right = rhs->evaluate(context);
-	// @todo figure out which implicit conversiosn to actually support
-	if (left.getType() != right.getType())
+	if (!areConvertible(left.getType(), right.getType()))
 	{
-		throw err::RuntimeTypeError("operator+ works only on homogenious types");
+		throw err::RuntimeTypeError("operator+ not defined for: " + left.getTypeAsString() + " + " + right.getTypeAsString());
 	}
 	Value result;
-	switch (left.getType())
+	switch (lowestCommonType(left.getType(), right.getType()))
 	{
 	case Value::Type::Integer:
-		result = std::move(Value(lhs->evaluate(context).asInt() + rhs->evaluate(context).asInt()));
+		result = std::move(Value(left.asInt() + right.asInt()));
 		break;
 	case Value::Type::Float:
-		result = std::move(Value(lhs->evaluate(context).asFloat() + rhs->evaluate(context).asFloat()));
+		result = std::move(Value(left.asFloat() + right.asFloat()));
 		break;
 	case Value::Type::String:
-		result = std::move(Value(lhs->evaluate(context).asString() + rhs->evaluate(context).asString()));
+		result = std::move(Value(left.asString() + right.asString()));
 		break;
 	default:
 		throw err::RuntimeTypeError("operator+ not defined for: " + left.getTypeAsString() + " + " + right.getTypeAsString());

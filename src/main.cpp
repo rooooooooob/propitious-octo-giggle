@@ -13,8 +13,15 @@ std::unique_ptr<ds::Expression> constant(const T& val)
 
 int main()
 {
-	ds::Context context;
-	std::unique_ptr<ds::Expression> root(new ds::op::Add(constant(5), constant(3)));
-	std::cout << root->evaluate(context) << std::endl;
+	try
+	{
+		ds::Context context;
+		std::unique_ptr<ds::Expression> root(new ds::op::Add(constant(5), constant("3")));
+		std::cout << root->evaluate(context) << std::endl;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "Uh oh... " << e.what() << std::endl;
+	}
 	return 0;
 }

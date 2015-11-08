@@ -1,5 +1,6 @@
 #include "Expressions/Value.hpp"
 
+#include <sstream>
 #include <utility>
 
 #include "Errors/RuntimeTypeError.hpp"
@@ -32,6 +33,12 @@ Value::Value(float x)
 }
 
 Value::Value(const std::string& x)
+	:type(Type::String)
+{
+	data.string = new std::string(x);
+}
+
+Value::Value(const char *x)
 	:type(Type::String)
 {
 	data.string = new std::string(x);
@@ -178,15 +185,18 @@ float Value::asFloat() const
 	}
 }
 
-const std::string& Value::asString() const
+const std::string Value::asString() const
 {
 	switch (type)
 	{
 	case Type::String:
 		return *data.string;
 	default:
-		// maybe allow conversions here?
-		throwTypeConversionError(Type::String);
+		{
+			std::stringstream ss;
+			ss << *this;
+			return ss.str();
+		}
 	}
 }
 

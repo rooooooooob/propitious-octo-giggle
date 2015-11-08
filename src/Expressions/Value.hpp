@@ -34,6 +34,8 @@ public:
 	explicit Value(float x);
 
 	explicit Value(const std::string& x);
+
+	explicit Value(const char *x);
 	
 	Value(Value&& other);
 	
@@ -63,7 +65,7 @@ public:
 
 	float asFloat() const;
 
-	const std::string& asString() const;
+	const std::string asString() const;
 
 	const std::vector<Type>& asArray() const;
 
