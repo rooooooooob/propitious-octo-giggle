@@ -11,7 +11,7 @@ RuntimeTypeError::RuntimeTypeError(const std::string& info)
 	this->info += info;
 }
 
-const char * RuntimeTypeError::what() const noexcept
+const char * RuntimeTypeError::what() const
 {
 	return info.c_str();
 }

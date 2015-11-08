@@ -16,6 +16,7 @@ public:
 	virtual Value evaluate(const Context& context) const = 0;
 
 protected:
+	Expression() {}
 
 private:
 	// deleted

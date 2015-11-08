@@ -1,7 +1,7 @@
-#include DS_CONSTANT_HPP
+#ifndef DS_CONSTANT_HPP
 #define DS_CONSTANT_HPP
 
-#incldue <memory>
+#include <memory>
 
 #include "Expressions/Expression.hpp"
 

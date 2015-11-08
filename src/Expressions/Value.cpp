@@ -43,7 +43,7 @@ Value::Value(Value&& other)
 	swap(*this, other);
 }
 
-VValue::Value(const Value& other)
+Value::Value(const Value& other)
 	:type(other.type)
 {
 	switch(other.type)
@@ -54,7 +54,7 @@ VValue::Value(const Value& other)
 		data.boolean = other.data.boolean;
 		break;
 	case Type::Integer:
-		data.integer = other.data.intger;
+		data.integer = other.data.integer;
 		break;
 	case Type::Float:
 		data.decimal = other.data.decimal;
@@ -66,14 +66,13 @@ VValue::Value(const Value& other)
 		data.vector = new std::vector<Type>(*other.data.vector);
 		break;
 	case Type::Map:
-		data.vector = new std::map<Type, Type>(*other.data.vector);
+		data.map = new std::map<Type, Type>(*other.data.map);
 		break;
 	case Type::Function:
 		/* not implemented */
 		throw "implement functions goddammit";
 		break;
 	}
-	other.type = Type::Void;
 }
 
 Value::~Value()
@@ -92,9 +91,12 @@ Value& Value::operator=(Value&& rhs)
 	return *this;
 }
 
-Value& Value::operator=(Value rhs)
+Value& Value::operator=(const Value& rhs)
 {
-	swap(*this, rhs);
+	// MSVC++ says it's ambiguous between Value vs Value&& so had to change
+	// the copy-swap idiom to pass by const ref and construct a temporary...
+	Value temp(rhs);
+	swap(*this, temp);
 	return *this;
 }
 
@@ -276,6 +278,59 @@ void Value::free()
 void Value::throwTypeConversionError(Type typeToConvertTo) const
 {
 	throw err::RuntimeTypeError("cannot convert from " + getTypeAsString() + " to " + getTypeAsString(typeToConvertTo));
+}
+
+
+
+// non-member
+std::ostream& operator<<(std::ostream& os, const Value& value)
+{
+	switch (value.getType())
+	{
+	case Value::Type::Void:
+		break;
+	case Value::Type::Boolean:
+		os << (value.asBool() ? "true" : "false");
+		break;
+	case Value::Type::Integer:
+		os << value.asInt();
+		break;
+	case Value::Type::Float:
+		os << value.asFloat();
+		break;
+	case Value::Type::String:
+		os << value.asString();
+		break;
+	case Value::Type::Array:
+		os << "[";
+		for (auto it = value.asArray().cbegin(), end = value.asArray().cend(); it != end; ++it)
+		{
+			if (it != value.asArray().cbegin())
+			{
+				os << ", ";
+			}
+			//os << *it;
+		}
+		os << "]";
+		break;
+	case Value::Type::Map:
+		os << "{";
+		for (auto it = value.asMap().cbegin(), end = value.asMap().cend(); it != end; ++it)
+		{
+			if (it != value.asMap().cbegin())
+			{
+				os << ", ";
+			}
+			//os << "(" << it->first << " : " << it->second << ")";
+		}
+		os << "}";
+		break;
+	case Value::Type::Function:
+		/* not implemented */
+		throw "implement functions goddammit";
+		break;
+	}
+	return os;
 }
 
 } // ds

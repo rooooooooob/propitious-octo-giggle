@@ -2,6 +2,7 @@
 #define DS_VALUE_HPP
 
 #include <map>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -43,7 +44,7 @@ public:
 	
 	Value& operator=(Value&& rhs);
 	
-	Value& operator=(Value rhs);
+	Value& operator=(const Value& rhs);
 
 
 
@@ -106,7 +107,13 @@ private:
 		std::map<Type, Type> *map;
 	};
 	Data data;
+
+
+
+	friend std::ostream& operator<<(std::ostream& os, const Value& value);
 };
+
+std::ostream& operator<<(std::ostream& os, const Value& value);
 
 } // ds
 

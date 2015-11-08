@@ -8,7 +8,8 @@ namespace op
 {
 
 Add::Add(std::unique_ptr<Expression> lhs, std::unique_ptr<Expression> rhs)
-	:lhs(std::move(lhs))
+	:Expression()
+	,lhs(std::move(lhs))
 	,rhs(std::move(rhs))
 {
 }
@@ -27,13 +28,13 @@ Value Add::evaluate(const Context& context) const
 	switch (left.getType())
 	{
 	case Value::Type::Integer:
-		result = Value(lhs->evaluate(context).asInt() + rhs->evaluate(context).asInt());
+		result = std::move(Value(lhs->evaluate(context).asInt() + rhs->evaluate(context).asInt()));
 		break;
 	case Value::Type::Float:
-		result = Value(lhs->evaluate(context).asFloat() + rhs->evaluate(context).asFloat());
+		result = std::move(Value(lhs->evaluate(context).asFloat() + rhs->evaluate(context).asFloat()));
 		break;
 	case Value::Type::String:
-		result = Value(lhs->evaluate(context).asString() + rhs->evaluate(context).asString());
+		result = std::move(Value(lhs->evaluate(context).asString() + rhs->evaluate(context).asString()));
 		break;
 	default:
 		throw err::RuntimeTypeError("operator+ not defined for: " + left.getTypeAsString() + " + " + right.getTypeAsString());

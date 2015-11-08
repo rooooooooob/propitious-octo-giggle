@@ -14,9 +14,9 @@ class RuntimeTypeError : public std::exception
 public:
 	RuntimeTypeError(const std::string& info);
 	
-	virtual ~RuntimeTypeError() noexcept {}
+	virtual ~RuntimeTypeError() /*noexcept*/ {}
 
-	virtual const char* what() noexcept const;
+	virtual const char* what() /*noexcept*/ const;
 	
 private:
 	std::string info;
