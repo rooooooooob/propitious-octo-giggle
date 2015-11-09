@@ -9,6 +9,8 @@
 namespace ds
 {
 
+class Function;
+
 class Value
 {
 public:
@@ -71,6 +73,8 @@ public:
 
 	const std::map<Type, Type>& asMap() const;
 
+	const Function& asFunction() const;
+
 
 
 	const std::string& getTypeAsString() const;
@@ -107,6 +111,7 @@ private:
 		std::string *string;
 		std::vector<Type> *vector; 
 		std::map<Type, Type> *map;
+		Function *func;
 	};
 	Data data;
 

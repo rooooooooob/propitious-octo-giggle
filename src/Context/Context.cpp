@@ -33,4 +33,19 @@ void Context::setVariable(Identifier id, Value&& val)
 	}
 }
 
+Scope* Context::getLocalScope()
+{
+	return &stack.back();
+}
+
+const Value& Context::getReturnValue() const
+{
+	return returnVal;
+}
+
+void Context::setReturnValue(Value&& val)
+{
+	returnVal = std::move(val);
+}
+
 } // ds

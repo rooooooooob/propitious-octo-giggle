@@ -3,6 +3,7 @@
 #include <sstream>
 #include <utility>
 
+#include "Context/Function.hpp"
 #include "Errors/RuntimeTypeError.hpp"
 
 
@@ -76,8 +77,7 @@ Value::Value(const Value& other)
 		data.map = new std::map<Type, Type>(*other.data.map);
 		break;
 	case Type::Function:
-		/* not implemented */
-		throw "implement functions goddammit";
+		data.func = new Function(*other.data.func);
 		break;
 	}
 }
@@ -232,6 +232,18 @@ const std::map<Value::Type, Value::Type>& Value::asMap() const
 	}
 }
 
+const Function& Value::asFunction() const
+{
+	switch (type)
+	{
+	case Type::Function:
+		return *data.func;
+	default:
+		// maybe allow conversions here?
+		throwTypeConversionError(Type::Function);
+	}
+}
+
 const std::string& Value::getTypeAsString() const
 {
 	return getTypeAsString(type);
@@ -286,8 +298,7 @@ void Value::free()
 		delete data.vector;
 		break;
 	case Type::Function:
-		/* not implemented */
-		throw "implement functions goddammit";
+		delete data.func;
 		break;
 	}
 	type = Type::Void;

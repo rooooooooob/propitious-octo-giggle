@@ -10,15 +10,15 @@
 namespace ds
 {
 
-class FunctionEval
+class FunctionEval : public Expression
 {
 public:
-	FunctionEval(Identifier function, std::vector<std::unique_ptr<Expression>>&& arguments);
+	FunctionEval(Identifier id, std::vector<std::unique_ptr<Expression>>&& arguments);
 
 	Value evaluate(Context& context) const;
 
 private:
-	Identifier function;
+	Identifier id;
 	std::vector<std::unique_ptr<Expression>> arguments;
 };
 

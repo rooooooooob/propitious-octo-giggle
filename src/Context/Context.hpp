@@ -16,10 +16,19 @@ public:
 
 	void setVariable(Identifier id, Value&& val);
 
+	void createVariable(Identifier id, Value&& val);
+
+	Scope* getLocalScope();
+
+	const Value& getReturnValue() const;
+
+	void setReturnValue(Value&& val);
+
 private:
 
 	std::vector<Scope> stack;
 	Scope globals;
+	Value returnVal;
 };
 
 } // ds
