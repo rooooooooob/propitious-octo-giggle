@@ -33,6 +33,12 @@ void Context::setVariable(Identifier id, Value&& val)
 	}
 }
 
+void Context::createVariable(Identifier id, Value&& val)
+{
+	Scope& scope = (stack.empty() ? globals : stack.back());
+	scope.setVariable(id, std::move(val));
+}
+
 Scope* Context::getLocalScope()
 {
 	return stack.empty() ? nullptr : &stack.back();
@@ -46,6 +52,16 @@ const Value& Context::getReturnValue() const
 void Context::setReturnValue(Value&& val)
 {
 	returnVal = std::move(val);
+}
+
+void Context::pushStack()
+{
+	stack.push_back(Scope());
+}
+
+void Context::popStack()
+{
+	stack.pop_back();
 }
 
 } // ds

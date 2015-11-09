@@ -2,6 +2,7 @@
 #define DS_VALUE_HPP
 
 #include <map>
+#include <memory>
 #include <ostream>
 #include <string>
 #include <vector>
@@ -38,6 +39,8 @@ public:
 	explicit Value(const std::string& x);
 
 	explicit Value(const char *x);
+
+	explicit Value(std::unique_ptr<Function> f);
 	
 	Value(Value&& other);
 	

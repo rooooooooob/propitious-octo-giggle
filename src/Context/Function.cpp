@@ -20,14 +20,14 @@ void Function::call(Context& context, const std::vector<std::unique_ptr<Expressi
 	// evaluate before registering locals in case name conflits happen
 	std::vector<Value> argValues;
 	argValues.reserve(arguments.size());
-	for (int i = 0; i < arguments.size(); ++i)
+	for (const auto& arg : arguments)
 	{
-		argValues[i] = std::move(arguments[i]->evaluate(context));
+		argValues.push_back(std::move(arg->evaluate(context)));
 	}
 	StackPush stack(context);
 	for (int i = 0; i < arguments.size(); ++i)
 	{
-		context.getLocalScope()->setVariable(info->params[i], std::move(argValues[i]));
+		context.createVariable(info->params[i], std::move(argValues[i]));
 	}
 	if (!info->block->execute(context))
 	{

@@ -45,6 +45,12 @@ Value::Value(const char *x)
 	data.string = new std::string(x);
 }
 
+Value::Value(std::unique_ptr<Function> f)
+	:type(Type::Function)
+{
+	data.func = f.release();
+}
+
 Value::Value(Value&& other)
 	:type(Type::Void)
 {
