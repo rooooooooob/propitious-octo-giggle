@@ -35,7 +35,7 @@ void Context::setVariable(Identifier id, Value&& val)
 
 Scope* Context::getLocalScope()
 {
-	return &stack.back();
+	return stack.empty() ? nullptr : &stack.back();
 }
 
 const Value& Context::getReturnValue() const

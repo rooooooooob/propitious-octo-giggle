@@ -1,6 +1,7 @@
 #include "Context/Function.hpp"
 
 #include "Context/Context.hpp"
+#include "Context/StackPush.hpp"
 
 namespace ds
 {
@@ -23,6 +24,7 @@ void Function::call(Context& context, const std::vector<std::unique_ptr<Expressi
 	{
 		argValues[i] = std::move(arguments[i]->evaluate(context));
 	}
+	StackPush stack(context);
 	for (int i = 0; i < arguments.size(); ++i)
 	{
 		context.getLocalScope()->setVariable(info->params[i], std::move(argValues[i]));

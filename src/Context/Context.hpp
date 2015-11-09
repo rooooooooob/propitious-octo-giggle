@@ -24,6 +24,10 @@ public:
 
 	void setReturnValue(Value&& val);
 
+	void pushStack();
+
+	void popStack();
+
 private:
 
 	std::vector<Scope> stack;
