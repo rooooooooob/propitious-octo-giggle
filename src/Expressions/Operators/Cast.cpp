@@ -20,7 +20,7 @@ Cast::Cast(std::unique_ptr<Expression> expr, Value::Type type)
 }
 
 	
-Value Cast::evaluate(const Context& context) const
+Value Cast::evaluate(Context& context) const
 {
 	Value val(std::move(expr->evaluate(context)));
 	Value ret;

@@ -8,7 +8,7 @@ Constant::Constant(const Value& value)
 {
 }
 
-Value Constant::evaluate(const Context&) const
+Value Constant::evaluate(Context&) const
 {
 	return value;
 }

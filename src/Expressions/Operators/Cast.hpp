@@ -16,7 +16,7 @@ public:
 	Cast(std::unique_ptr<Expression> expr, Value::Type type);
 
 	
-	Value evaluate(const Context& context) const override;
+	Value evaluate(Context& context) const override;
 	
 	
 private:

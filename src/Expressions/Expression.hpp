@@ -13,7 +13,7 @@ class Expression
 public:
 	virtual ~Expression() {}
 	
-	virtual Value evaluate(const Context& context) const = 0;
+	virtual Value evaluate(Context& context) const = 0;
 
 protected:
 	Expression() {}

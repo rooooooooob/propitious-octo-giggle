@@ -13,7 +13,7 @@ class Constant : public Expression
 public:
 	Constant(const Value& value);
 	
-	Value evaluate(const Context&) const override;
+	Value evaluate(Context&) const override;
 	
 private:
 	Value value;

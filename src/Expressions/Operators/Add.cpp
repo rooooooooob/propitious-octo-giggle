@@ -16,7 +16,7 @@ Add::Add(std::unique_ptr<Expression> lhs, std::unique_ptr<Expression> rhs)
 }
 
 
-Value Add::evaluate(const Context& context) const
+Value Add::evaluate(Context& context) const
 {
 	const Value left = lhs->evaluate(context);
 	const Value right = rhs->evaluate(context);

@@ -16,7 +16,7 @@ public:
 	Add(std::unique_ptr<Expression> lhs, std::unique_ptr<Expression> rhs);
 
 	
-	Value evaluate(const Context& context) const override;
+	Value evaluate(Context& context) const override;
 	
 	
 private:
