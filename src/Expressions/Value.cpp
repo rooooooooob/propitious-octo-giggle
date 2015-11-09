@@ -165,8 +165,12 @@ int Value::asInt() const
 {
 	switch (type)
 	{
+	case Type::Boolean:
+		return data.boolean ? 1 : 0;
 	case Type::Integer:
 		return data.integer;
+	case Type::Float:
+		return static_cast<int>(data.decimal);
 	default:
 		// maybe allow conversions here?
 		throwTypeConversionError(Type::Integer);
@@ -177,6 +181,10 @@ float Value::asFloat() const
 {
 	switch (type)
 	{
+	case Type::Boolean:
+	case Type::Integer:
+		return static_cast<float>(asInt());
+		break;
 	case Type::Float:
 		return data.decimal;
 	default:
