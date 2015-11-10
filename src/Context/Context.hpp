@@ -18,6 +18,8 @@ public:
 
 	void createVariable(Identifier id, Value&& val);
 
+	void createGlobalVariable(Identifier id, Value&& val);
+
 	Scope* getLocalScope();
 
 	const Value& getReturnValue() const;

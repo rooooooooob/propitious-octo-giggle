@@ -3,6 +3,11 @@
 namespace ds
 {
 
+Scope::Scope()
+	:values()
+{
+}
+
 Scope::Scope(Scope&& other)
 	:values(std::move(other.values))
 {

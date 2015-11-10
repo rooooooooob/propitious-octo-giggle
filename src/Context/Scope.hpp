@@ -13,6 +13,8 @@ namespace ds
 class Scope
 {
 public:
+	Scope();
+
 	Scope(Scope&& other);
 
 	Scope& operator=(Scope&& rhs);

@@ -36,7 +36,20 @@ void Context::setVariable(Identifier id, Value&& val)
 void Context::createVariable(Identifier id, Value&& val)
 {
 	Scope& scope = (stack.empty() ? globals : stack.back());
+	if (scope.variableExists(id))
+	{
+		throw "replace this with a real error - duplicate variable creation";
+	}
 	scope.setVariable(id, std::move(val));
+}
+
+void Context::createGlobalVariable(Identifier id, Value&& val)
+{
+	if (globals.variableExists(id))
+	{
+		throw "replace this with a real error - duplicate global variable creation";
+	}
+	globals.setVariable(id, std::move(val));
 }
 
 Scope* Context::getLocalScope()
