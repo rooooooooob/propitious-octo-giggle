@@ -3,6 +3,17 @@
 namespace ds
 {
 
+Scope::Scope(Scope&& other)
+	:values(std::move(other.values))
+{
+}
+
+Scope& Scope::operator=(Scope&& rhs)
+{
+	values = std::move(rhs.values);
+	return *this;
+}
+
 const Value& Scope::getVariable(Identifier id) const
 {
 	auto it = values.find(id);

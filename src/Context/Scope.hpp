@@ -13,6 +13,10 @@ namespace ds
 class Scope
 {
 public:
+	Scope(Scope&& other);
+
+	Scope& operator=(Scope&& rhs);
+
 	const Value& getVariable(Identifier id) const;
 
 	void setVariable(Identifier id, Value&& val);
@@ -20,6 +24,9 @@ public:
 	bool variableExists(Identifier id) const;
 
 private:
+	Scope(const Scope&);
+	Scope& operator=(const Scope&);
+
 	std::map<Identifier, Value> values;
 };
 
