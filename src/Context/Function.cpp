@@ -25,7 +25,7 @@ void Function::call(Context& context, const std::vector<std::unique_ptr<Expressi
 		argValues.push_back(std::move(arg->evaluate(context)));
 	}
 	StackPush stack(context);
-	for (int i = 0; i < arguments.size(); ++i)
+	for (std::vector<std::unique_ptr<Expression>>::size_type i = 0; i < arguments.size(); ++i)
 	{
 		context.createVariable(info->params[i], std::move(argValues[i]));
 	}

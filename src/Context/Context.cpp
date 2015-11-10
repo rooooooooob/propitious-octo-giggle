@@ -14,7 +14,7 @@ const Value& Context::getVariable(Identifier id) const
 		return globals.getVariable(id);
 	}
 	throw "replace this with a real exception or handle it during parsing";
-	return Value(); // go away warnings
+	return globals.getVariable(-1); // go away warnings
 }
 
 void Context::setVariable(Identifier id, Value&& val)

@@ -165,6 +165,7 @@ bool Value::asBool() const
 		// maybe allow conversions here?
 		throwTypeConversionError(Type::Boolean);
 	}
+	return false; // to supress warnings
 }
 
 int Value::asInt() const
@@ -181,6 +182,7 @@ int Value::asInt() const
 		// maybe allow conversions here?
 		throwTypeConversionError(Type::Integer);
 	}
+	return -1; // to supress warnings
 }
 
 float Value::asFloat() const
@@ -197,6 +199,7 @@ float Value::asFloat() const
 		// maybe allow conversions here?
 		throwTypeConversionError(Type::Float);
 	}
+	return -1.f; // to supress warnings
 }
 
 const std::string Value::asString() const
@@ -212,6 +215,7 @@ const std::string Value::asString() const
 			return ss.str();
 		}
 	}
+	return "invalid - to supress warnings";
 }
 
 const std::vector<Value::Type>& Value::asArray() const
@@ -224,6 +228,7 @@ const std::vector<Value::Type>& Value::asArray() const
 		// maybe allow conversions here?
 		throwTypeConversionError(Type::Array);
 	}
+	return *data.vector; // garbage, to supress warnings
 }
 
 const std::map<Value::Type, Value::Type>& Value::asMap() const
@@ -236,6 +241,7 @@ const std::map<Value::Type, Value::Type>& Value::asMap() const
 		// maybe allow conversions here?
 		throwTypeConversionError(Type::Map);
 	}
+	return *data.map; // garbage, to supress warnings
 }
 
 const Function& Value::asFunction() const
@@ -248,6 +254,7 @@ const Function& Value::asFunction() const
 		// maybe allow conversions here?
 		throwTypeConversionError(Type::Function);
 	}
+	return *data.func; // garbage, to supress warnings
 }
 
 const std::string& Value::getTypeAsString() const
